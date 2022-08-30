@@ -18,8 +18,7 @@ abstract class GenericPersistentEntityService<T>
     }
 
     override fun get(id: UUID): T? {
-        val obj = dao.findById(id)
-        return obj.orElse(null)
+        return dao.findById(id).orElse(null)
     }
 
     override val all: MutableList<T>

@@ -36,20 +36,30 @@ class CustomerController {
         return ResponseEntity.created(uri).body(customer)
     }
 
-    @PutMapping("/{id}")
     @PatchMapping("/{id}")
-    fun update(@RequestBody customer: Customer, @PathVariable id: UUID): ResponseEntity<Customer> {
+    fun partialUpdate(
+            @PathVariable
+            id: UUID,
+            @RequestBody @Validated(CustomerDto.CustomerUpdate::class)
+            dto: CustomerDto
+    ): ResponseEntity<Customer> =
+            ResponseEntity
+                    .ok(customerService
+                            .update(dto,
+                                    customerService[id]
+                                            ?: throw EntityNotFoundException(),
+                                    true))
 
-        var toUpdate: Customer = customerService[id]
-                ?: throw EntityNotFoundException("Customer not found")
 
-        toUpdate.name = customer.name
-        toUpdate.email = customer.email ?: toUpdate.email
-
-        val customerUpdated: Customer = customerService.save(toUpdate)
-
-        return ResponseEntity.ok(customerUpdated)
-    }
+    @PutMapping("/{id}")
+    fun update(
+            @PathVariable id: UUID,
+            @RequestBody @Validated(CustomerDto.CustomerCreation::class) dto: CustomerDto,
+    ): ResponseEntity<Customer> =
+            ResponseEntity
+                    .ok(customerService
+                            .update(dto, customerService[id]
+                                    ?: throw EntityNotFoundException()))
 
 
     @DeleteMapping("/{id}")

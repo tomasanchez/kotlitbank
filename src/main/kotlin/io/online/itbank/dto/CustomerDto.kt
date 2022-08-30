@@ -9,13 +9,15 @@ class CustomerDto {
 
     /**
      * Marker for grouping Validations on creation of a (new) Customer
+     *  or fully replacing an existing Customer
      */
     interface CustomerCreation {}
 
     /**
-     * Marker for grouping Validations on Update of a (new) Customer
+     * Marker for grouping Validations on Partially Update of an existing Customer
      */
     interface CustomerUpdate {}
+
 
     @Min(0, groups = [CustomerCreation::class])
     var type: Int? = 0

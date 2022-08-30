@@ -22,8 +22,11 @@ class GenericCustomerService : GenericPersistentEntityService<Customer>(), Custo
         get() = customerRepository
 
 
-    override fun save(dto: CustomerDto): Customer {
-        val customer: Customer = mapper.create(dto)
-        return save(customer)
-    }
+    override fun save(dto: CustomerDto): Customer =
+            save(mapper.create(dto))
+
+
+    override fun update(dto: CustomerDto, customer: Customer, partial: Boolean): Customer =
+            save(mapper.update(dto, customer, partial))
+
 }

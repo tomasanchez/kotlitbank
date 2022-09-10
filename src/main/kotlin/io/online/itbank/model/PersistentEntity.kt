@@ -1,14 +1,12 @@
 package io.online.itbank.model
 
 import com.fasterxml.jackson.annotation.JsonIgnore
-import org.hibernate.annotations.GenericGenerator
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import org.springframework.data.util.ProxyUtils
 import java.io.Serializable
 import java.time.LocalDateTime
-import java.util.*
 import javax.persistence.*
 
 
@@ -21,10 +19,9 @@ abstract class PersistentEntity : Serializable {
     }
 
     @Id
-    @GeneratedValue(generator = "uuid")
-    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", updatable = false, nullable = false, columnDefinition = "uuid")
-    private val id: UUID? = null
+    private val id: Long? = null
 
     @CreatedDate
     @Column(name = "created_at", updatable = false, nullable = false)
@@ -35,7 +32,7 @@ abstract class PersistentEntity : Serializable {
     var lastUpdatedAt: LocalDateTime? = null
 
 
-    fun getId(): UUID? = id
+    fun getId(): Long? = id
 
     @JsonIgnore
     fun isNew() = null == this.getId()

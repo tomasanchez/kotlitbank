@@ -8,7 +8,6 @@ import io.online.itbank.services.api.CustomerService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Service
-import java.util.*
 
 @Service
 class GenericCustomerService : GenericPersistentEntityService<Customer>(), CustomerService {
@@ -18,7 +17,7 @@ class GenericCustomerService : GenericPersistentEntityService<Customer>(), Custo
 
     val mapper: CustomerMapper = CustomerMapper()
 
-    override val dao: CrudRepository<Customer, UUID>
+    override val dao: CrudRepository<Customer, Long>
         get() = customerRepository
 
 

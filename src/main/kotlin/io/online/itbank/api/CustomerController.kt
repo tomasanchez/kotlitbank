@@ -9,7 +9,6 @@ import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder
 import java.net.URI
-import java.util.*
 import javax.persistence.EntityNotFoundException
 
 @RestController
@@ -39,7 +38,7 @@ class CustomerController {
     @PatchMapping("/{id}")
     fun partialUpdate(
             @PathVariable
-            id: UUID,
+            id: Long,
             @RequestBody @Validated(CustomerDto.CustomerUpdate::class)
             dto: CustomerDto
     ): ResponseEntity<Customer> =
@@ -53,7 +52,7 @@ class CustomerController {
 
     @PutMapping("/{id}")
     fun update(
-            @PathVariable id: UUID,
+            @PathVariable id: Long,
             @RequestBody @Validated(CustomerDto.CustomerCreation::class) dto: CustomerDto,
     ): ResponseEntity<Customer> =
             ResponseEntity
@@ -63,9 +62,11 @@ class CustomerController {
 
 
     @DeleteMapping("/{id}")
-    fun delete(@PathVariable id: UUID): ResponseEntity<Void> {
+    fun delete(@PathVariable id: Long): ResponseEntity<Void> {
         customerService.delete(id)
-        return ResponseEntity.noContent().build()
+        return ResponseEntity
+                .noContent()
+                .build()
     }
 
 

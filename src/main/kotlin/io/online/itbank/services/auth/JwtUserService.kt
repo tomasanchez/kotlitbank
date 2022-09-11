@@ -1,7 +1,7 @@
 package io.online.itbank.services.auth
 
 import io.online.itbank.model.JwtUser
-import io.online.itbank.model.Role
+import io.online.itbank.model.Privilege
 import io.online.itbank.respository.JwtUserRepository
 import io.online.itbank.security.domain.RegisterForm
 import io.online.itbank.services.generic.GenericPersistentEntityService
@@ -34,14 +34,12 @@ class JwtUserService(
             val user = JwtUser(registerForm.username, encodedPassword)
 
             if (registerForm.isAdmin)
-                user.addRole(Role.ROLE_ADMIN)
-            else
-                user.addRole(Role.ROLE_USER)
+                user.privilege = Privilege.ADMIN
 
             return userRepository.save(user)
         }
     }
-    
+
     override val dao: CrudRepository<JwtUser, Long>
         get() = userRepository
 }

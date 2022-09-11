@@ -15,25 +15,17 @@ class JwtUser(
         @Column(name = "password", nullable = false)
         private var password: String,
 
-        @Column(name = "role", nullable = true)
+        @Column(name = "privilege", nullable = true)
         @Enumerated(EnumType.ORDINAL)
-        @ElementCollection(fetch = FetchType.EAGER)
-        @CollectionTable(name = "user_roles", joinColumns = [JoinColumn(name = "user_id")])
-        private var roles: MutableSet<Role> = mutableSetOf(),
+        var privilege: Privilege = Privilege.USER,
 
         @Column(name = "enabled", nullable = false)
         private var enabled: Boolean = true,
 
         ) : PersistentEntity(), UserDetails {
 
-
-    fun addRole(role: Role): JwtUser {
-        roles.add(role)
-        return this
-    }
-
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
-        return roles
+        return privilege.authorities
     }
 
     @JsonIgnore

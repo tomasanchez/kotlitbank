@@ -20,7 +20,7 @@ abstract class PersistentEntity : Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", updatable = false, nullable = false, columnDefinition = "uuid")
+    @Column(name = "id", updatable = false, nullable = false)
     private val id: Long? = null
 
     @CreatedDate
